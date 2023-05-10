@@ -3,6 +3,7 @@ class AlarmClock {
     this.alarmCollection = [];
     this.intervalId = null;
   }
+
   addClock(time, clock) {
     if (!time || !clock) {
       throw new Error("Отсутствуют обязательные аргументы");
