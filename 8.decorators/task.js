@@ -21,4 +21,31 @@ function cachingDecoratorNew(func) {
 }
 
 //Задача № 2
-function debounceDecoratorNew(func, delay) {}
+function debounceDecoratorNew(func, delay) {
+  let timeoutId = null;
+  function wrapper(...args) {
+    if (timeoutId === null) {
+      console.log(func.call(this, ...args));
+      console.log("вызвали first колбек");
+      wrapper.count++;
+    }
+    if (timeoutId) {
+      console.log("удалили текущий таймаут");
+      clearTimeout(timeoutId);
+    }
+    console.log("создаем новый таймаут");
+    timeoutId = setTimeout(
+      () => {
+        timeoutId = true;
+        console.log(func(...args));
+        wrapper.count++;
+        console.log("вызвали колбек");
+      },
+      delay,
+      wrapper.allCount++
+    );
+  }
+  wrapper.count = 0;
+  wrapper.allCount = 0;
+  return wrapper;
+}
